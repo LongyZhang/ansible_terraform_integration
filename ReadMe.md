@@ -1,4 +1,4 @@
-# Terraform AWS EC2 Deployment - RHEL Nodes
+# Terraform AWS EC2 Deployment and Ansible configuration practice  
 
 This project uses Terraform to provision a network infrastructure and launch six Red Hat Enterprise Linux (RHEL) EC2 instances in AWS. It includes:
 
@@ -13,15 +13,15 @@ All instances are deployed into a **public subnet** with **SSH (port 22)** acces
 ---
 
 ## 📁 Project Structure
-
+```
 terraform-ec2-redhat/
 ├── main.tf # Main Terraform configuration
 ├── outputs.tf # Outputs like instance IPs
 ├── variables.tf # (Optional) variables file
 ├── README.md # This file
+```
 
-
-## My plan: 
+## 🧩 My plan: 
 
 1: Using terraform to provisiion the ec2 and vpc, All instances are deployed into a **public subnet** with **SSH (port 22)** access from my current IP.
 
