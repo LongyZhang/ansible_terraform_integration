@@ -85,6 +85,25 @@ resource "aws_security_group" "ssh_sg" {
   }
 }
 
+resource "aws_security_group" "vpc_sg" {
+  name   = "allow access from subnet"
+  vpc_id = aws_vpc.main.id
+
+  ingress {
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = [aws_subnet.public.cidr_block]
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+}
+
 resource "aws_key_pair" "my_key" {
   key_name   = "my-key"
   public_key = file("~/.ssh/id_rsa.pub")  # adjust path as needed
@@ -108,7 +127,7 @@ resource "aws_instance" "nodes" {
   instance_type = "t3.micro"
   subnet_id     = aws_subnet.public.id
   key_name      = aws_key_pair.my_key.key_name
-  vpc_security_group_ids = [aws_security_group.ssh_sg.id]
+  vpc_security_group_ids = [aws_security_group.ssh_sg.id,aws_security_group.vpc_sg.id]
 
   tags = {
     Name = local.instance_names[count.index]
