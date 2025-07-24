@@ -124,7 +124,7 @@ locals {
 resource "aws_instance" "nodes" {
   count         = length(local.instance_names)
   ami           = data.aws_ami.rhel.id
-  instance_type = "t3.micro"
+  instance_type = "t3.medium"
   subnet_id     = aws_subnet.public.id
   key_name      = aws_key_pair.my_key.key_name
   vpc_security_group_ids = [aws_security_group.ssh_sg.id,aws_security_group.vpc_sg.id]
