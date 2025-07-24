@@ -15,7 +15,9 @@ terraform-ec2-redhat/
 ├── README.md         # This file
 ```
 
-## 🔧 Infrastructure Setup (Terraform)
+## 🔧 Infrastructure Setup (Terraform) and Architecture
+
+![Architecture Diagram](architecture.png)
 
 1. **VPC and Subnet**:
    - A single VPC with one **public subnet** is provisioned.
@@ -110,3 +112,7 @@ On the manager node, set up the Ansible configuration:
   - One allows SSH from your home IP to access the manager node.
   - Another allows SSH within the subnet for node-to-node communication.
 - Ensure the AWS key pair is securely copied to the manager node for Ansible SSH access.
+
+## connection result.
+
+![result Diagram](connection-test.png)
