@@ -1,0 +1,5 @@
+# playbook1.yml
+- hosts: all
+  tasks:
+    - name: Ensure the playbook is running
+      ping:

@@ -62,6 +62,9 @@ Check the Ansible version:
 Copy the AWS key pair from your local machine to the manager node:
 ```bash
 scp -i <local-key-pair.pem> <local-key-pair.pem> ec2-user@<manager-public-ip>:~/.ssh/id_rsa
+
+change the privatekey permission on the manager node
+chmod 600 /home/ec2-user/.ssh/id_rsa
 ```
 
 ### 4. Configure Ansible
@@ -105,6 +108,7 @@ On the manager node, set up the Ansible configuration:
 |------------|----------------------------------------------------|-------------------------------------------------------------------------------|
 | 2025-07-23 | Provisioned 6 worker nodes and 1 manager node       | Used Terraform to set up VPC, subnet, and EC2 instances successfully.          |
 | 2025-07-24 | Configured manager EC2 node for Ansible             | Spent 1 hour setting up `ansible.cfg` and `hosts` files on the manager node.   |
+| 2025-07-24 | Modified the output.tf to list the private ipv4 address of nodes               | Spent 1 hour setting up `ansible.cfg` and `hosts` files on the manager node.   |
 
 ## 🧩 Notes
 - The manager node uses **private IPs** for SSH to worker nodes within the same subnet.
@@ -116,3 +120,22 @@ On the manager node, set up the Ansible configuration:
 ## connection result.
 
 ![result Diagram](connection-test.png)
+
+
+## few 
+
+'''
+ansible all -m command -a "sudo yum update -y"
+'''
+
+ansible-doc -l |grep aws
+
+ansible node1 -m command can not use pipe and & 
+
+
+script module, you can use it to run the bash script, ansible test -m script -a "./pack.sh"
+
+copy module:
+
+ansible test -m copy -a "src=~/a3.txt dest=/root"
+
