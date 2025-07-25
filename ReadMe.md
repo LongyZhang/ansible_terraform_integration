@@ -139,3 +139,7 @@ copy module:
 
 ansible test -m copy -a "src=~/a3.txt dest=/root"
 
+
+ansible-playboo ~/ansible/test.yml -f5 
+
+## -f 5 means to run the playbook on five worker machine at same time

@@ -1,0 +1,21 @@
+---
+- name: Confiugre the playbook
+  hosts: all
+  tasks:
+    - name: Ensure the playbook is running
+      ping:
+    - name: Print a message
+      debug:
+        msg: "Playbook is configured and running successfully"
+    - name: Install a package
+      ansible.builtin.yum:
+        name:
+          - vim
+          - git
+          - wget 
+        state: present
+      become: true
+      register: install_vim
+    - name: debug install result
+      ansible.builtin.debug:
+        var: install_vim
