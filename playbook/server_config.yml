@@ -7,7 +7,22 @@
     - name: Print a message
       debug:
         msg: "Playbook is configured and running successfully"
-    - name: Install a package
+    - name: create file
+      ansible.builtin.command:
+        cmd: echo "this file is created by ansible playbook" > /tmp/ansible_test_file.txt
+      become: true
+      register: create_file
+    - name: debug create file result
+      ansible.builtin.debug:
+        var: create_file
+    - name: Ensure the file exists
+      ansible.builtin.stat:
+        path: /tmp/ansible_test_file.txt
+      register: file_stat
+    - name: debug file stat
+      ansible.builtin.debug:
+        var: file_stat
+    - name: Install a package 
       ansible.builtin.yum:
         name:
           - vim
