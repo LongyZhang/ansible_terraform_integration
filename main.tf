@@ -121,6 +121,8 @@ locals {
   ]
 }
 
+
+
 resource "aws_instance" "nodes" {
   count         = length(local.instance_names)
   ami           = data.aws_ami.rhel.id
@@ -131,5 +133,26 @@ resource "aws_instance" "nodes" {
 
   tags = {
     Name = local.instance_names[count.index]
+  }
+}
+
+resource "null_resource" "generate_inventory" {
+  provisioner "local-exec" {
+    command = <<EOT
+cat <<EOF > hosts.ini
+[database]
+node5 ansible_host=${local.database_private_ip}
+
+[proxy]
+node2 ansible_host=${local.proxy_private_ip}
+
+[test]
+node1 ansible_host=${local.test_private_ip}
+
+[webserver]
+node3 ansible_host=${local.web1_private_ip}
+node4 ansible_host=${local.web2_private_ip}
+EOF
+EOT
   }
 }

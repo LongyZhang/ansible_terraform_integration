@@ -13,3 +13,8 @@ output "instance_private_ips" {
     local.instance_names[idx] => inst.private_ip
   }
 }
+
+output "database_private_ip" {
+  description = "Private IP of the database instance"
+  value       = local.database_private_ip
+}
