@@ -63,6 +63,10 @@ Copy the AWS key pair from your local machine to the manager node:
 ```bash
 scp -i <local-key-pair.pem> <local-key-pair.pem> ec2-user@<manager-public-ip>:~/.ssh/id_rsa
 
+
+scp -i ~/.ssh/id_rsa  ec2-user@10.0.1.243:~/.ssh/id_rsa
+change the privatekey permission on the manager node
+chmod 600 /home/ec2-user/.ssh/id_rsa
 change the privatekey permission on the manager node
 chmod 600 /home/ec2-user/.ssh/id_rsa
 ```
@@ -117,12 +121,12 @@ On the manager node, set up the Ansible configuration:
   - Another allows SSH within the subnet for node-to-node communication.
 - Ensure the AWS key pair is securely copied to the manager node for Ansible SSH access.
 
-## connection result.
+## Connection Result.
 
 ![result Diagram](connection-test.png)
 
 
-## few 
+## Few commands
 
 '''
 ansible all -m command -a "sudo yum update -y"

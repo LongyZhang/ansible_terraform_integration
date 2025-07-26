@@ -6,3 +6,5 @@ sudo -u ec2-user pip3 install --user ansible
 echo "User data completed." >> /home/ec2-user/user_data.log
 echo "Ansible version:" >> /home/ec2-user/user_data.log
 ansible --version >> /home/ec2-user/user_data.log
+sudo -u ec2-user pip3 install --user ansible
+
