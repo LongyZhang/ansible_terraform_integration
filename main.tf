@@ -104,6 +104,7 @@ resource "aws_security_group" "vpc_sg" {
   }
 }
 
+
 resource "aws_key_pair" "my_key" {
   key_name   = "my-key"
   public_key = file("~/.ssh/id_rsa.pub")  # adjust path as needed
@@ -126,15 +127,22 @@ locals {
 resource "aws_instance" "nodes" {
   count         = length(local.instance_names)
   ami           = data.aws_ami.rhel.id
-  instance_type = "t3.medium"
+  instance_type = "t3a.medium"
   subnet_id     = aws_subnet.public.id
   key_name      = aws_key_pair.my_key.key_name
   vpc_security_group_ids = [aws_security_group.ssh_sg.id,aws_security_group.vpc_sg.id]
+
+
+  user_data = file("user_data/user_data.sh")
 
   tags = {
     Name = local.instance_names[count.index]
   }
 }
+
+
+
+
 
 resource "null_resource" "generate_inventory" {
   provisioner "local-exec" {
