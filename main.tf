@@ -6,29 +6,24 @@ data "http" "my_ip" {
   url = "https://ipv4.icanhazip.com"
 }
 
-# RHEL 8 AMI from AWS Marketplace (for us-east-1)
-data "aws_ami" "rhel" {
+# Amazon linux 2 from AWS Marketplace (for us-east-1)
+data "aws_ami" "amazon_linux" {
   most_recent = true
-  owners      = ["309956199498"]  # Red Hat official
+  owners      = ["137112412989"] # Amazon
 
   filter {
     name   = "name"
-    values = ["RHEL-8*_HVM-*-x86_64-*"]
-  }
-
-  filter {
-    name   = "architecture"
-    values = ["x86_64"]
-  }
-
-  filter {
-    name   = "root-device-type"
-    values = ["ebs"]
+    values = ["amzn2-ami-hvm-*-x86_64-gp2"]
   }
 
   filter {
     name   = "virtualization-type"
     values = ["hvm"]
+  }
+
+  filter {
+    name   = "architecture"
+    values = ["x86_64"]
   }
 }
 
@@ -126,7 +121,7 @@ locals {
 
 resource "aws_instance" "nodes" {
   count         = length(local.instance_names)
-  ami           = data.aws_ami.rhel.id
+  ami           = data.aws_ami.amazon_linux.id
   instance_type = "t3a.medium"
   subnet_id     = aws_subnet.public.id
   key_name      = aws_key_pair.my_key.key_name
