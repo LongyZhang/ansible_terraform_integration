@@ -1,0 +1,35 @@
+---
+- hosts: webserver
+  become: true
+  tasks:
+    - name: Add group admin
+      ansible.builtin.group:
+        name: admin
+        gid: 1011
+
+    - name: Add group developer
+      ansible.builtin.group:
+        name: developer
+        gid: 1012
+
+    - name: Add the user longyaccount
+      ansible.builtin.user:
+        name: longyaccount
+        comment: "John Doe"
+        password: "{{ 'password' | password_hash('sha512') }}"
+        shell: /bin/bash
+        uid: 1040
+        group: admin
+
+    - name: Create home directory for longyaccount
+      ansible.builtin.user:
+        name: longyaccount
+        home: /home/longyaccount
+        create_home: true
+
+    - name: Add user james with bash shell, append group admin and developer
+      ansible.builtin.user:
+        name: james
+        shell: /bin/bash
+        groups: admin,developer
+        append: true

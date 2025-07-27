@@ -136,6 +136,16 @@ resource "aws_instance" "nodes" {
 }
 
 
+resource "terraform_data" "copy_ssh_key" {
+  provisioner "local-exec" {
+    command = <<EOT
+scp -i ~/.ssh/id_rsa ~/.ssh/id_rsa.pub ec2-user@${local.manager_public_ip}:~/.ssh/id_rsa.pub && \
+EOT
+  }
+}
+
+
+
 
 
 

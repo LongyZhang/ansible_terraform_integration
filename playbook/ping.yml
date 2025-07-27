@@ -1,0 +1,10 @@
+---
+- name: Ping all hosts
+  hosts: all
+  tasks:
+    - name: Ensure the playbook is running
+      ping:
+    - name: Print a message
+      debug:
+        msg: "Playbook is configured and running successfully"
+
