@@ -1,0 +1,11 @@
+---
+- host: test
+  become: true
+  tasks: 
+    - name: check_mem_size
+      ansible.builtin.setuip:
+        name: netoworkManager
+        states: stopped
+      when: ansible_memfree_mb<700
+
+

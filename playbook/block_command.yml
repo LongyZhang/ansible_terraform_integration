@@ -1,0 +1,41 @@
+---
+- host: test
+  become: true
+  tasks: 
+    - name: define a group of tasks
+      block: 
+        - name: install httpd
+          ansible.builtin.package:
+            name: httpd
+            state: present
+        - name: start service
+          ansible.builtin.systemd:
+            name: httpd
+            state: started
+            enabled: true
+      when: ansible_distribution == "Amazon" 
+      register: run_block
+    - name: debug printenv
+      ansible.builtin.debug:
+        var: run_block
+
+    - name: block rescue and always
+      block:
+        - name: install sshd
+          ansible.builtin.package:
+            name: sshd
+            state: present
+      
+      rescue: 
+        - name: if the sshd does not work, install the apache
+          ansible.builtin.package:
+            name: httpd
+            state: present
+      always: 
+        - name: i do not care, i will install vim anyway
+          ansible.builtin.package:
+            name: vim
+            state: present
+
+# if the block did not run, it will run the rescure first.,
+# it will always run the task in awlays 

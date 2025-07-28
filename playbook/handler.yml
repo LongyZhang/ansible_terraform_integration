@@ -1,0 +1,36 @@
+---
+- hosts: test
+  tasks:
+    - name: Create folder
+      become: true
+      ansible.builtin.file:
+        path: /ect/test
+        state: directory
+      notify: create_file
+    - name: ensure firewall is installed
+      ansible.builtin.package:
+        name: firewalld
+        state: present
+    - name: start the firewall service
+      ansible.builtin.systemd:
+
+        name: firewalld
+        state: started
+        enable: true
+  handlers:
+    - name: create_file
+      ansible.builtin.file:
+        path: /ect/test/new.txt
+        state: touch
+    - name: add_words
+      ansible.builtin.file:
+
+
+
+## handler will run after the whole task is finished
+
+## handler will run when the notify task is changed or create
+
+## if the /ect/test is already created. it wont run
+
+  

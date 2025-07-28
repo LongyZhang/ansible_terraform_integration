@@ -1,0 +1,30 @@
+---
+- hosts: web1
+  become: true
+  tasks:
+    - name: Ensure firewalld is installed
+      ansible.builtin.package:
+        name: firewalld
+        state: present
+
+    - name: Start and enable firewalld service
+      ansible.builtin.systemd:
+        name: firewalld
+        state: started
+        enabled: true
+
+    - name: Open port 80 for HTTP traffic
+      ansible.builtin.firewalld:
+        port: 80/tcp
+        permanent: true
+        state: enabled
+
+    - name: Open port 443 for HTTPS traffic
+      ansible.builtin.firewalld:
+        port: 443/tcp
+        permanent: true
+        state: enabled
+
+    - name: Reload firewalld to apply changes
+      ansible.builtin.firewalld:
+        state: reloaded

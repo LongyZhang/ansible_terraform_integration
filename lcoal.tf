@@ -22,7 +22,7 @@ locals {
 ## public IPs for each instance
 
 locals {
-  manager_public_ip = [for in in aws_instance.nodes : in.private_ip if in.tags.Name == "manager"][0]
+  manager_public_ip = [for in in aws_instance.nodes : in.public_ip if in.tags.Name == "manager"][0]
 }
 
 locals {
@@ -43,4 +43,11 @@ locals {
 
 locals {
   database_public_ip = [for in in aws_instance.nodes : in.public_ip if in.tags.Name == "database"][0]
+}
+
+
+locals {
+  public_ips = {
+    manager   = local.manager_public_ip
+  }
 }
